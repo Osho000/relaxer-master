@@ -40,11 +40,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeRequests(auth -> auth
-                        .requestMatchers("/auth/register", "/v3/api/docs/**", "/swagger-ui/**").permitAll()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/register", "/swagger-ui/", "/v3/api-docs/").permitAll()
                         .requestMatchers("/user/**").hasRole("USER")
-                ).httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults());
+                        .anyRequest().authenticated()
+                )
+                .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 }
