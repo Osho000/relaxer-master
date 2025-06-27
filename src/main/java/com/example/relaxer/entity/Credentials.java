@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(schema = "users_schema", name = "t_users")
+@Table(schema = "users_schema", name = "t_credentials")
 public class Credentials {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @Column(nullable = false, name = "c_user")
+    @Column(nullable = false, name = "c_username")
     String username;
     @Column(nullable = false, name = "c_password")
     String password;
@@ -25,7 +25,7 @@ public class Credentials {
     @JoinColumn(name = "c_role_id")
     Role role;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "c_user_id", referencedColumnName = "id")
     User user;
 }
