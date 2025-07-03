@@ -10,7 +10,5 @@ public interface AuthService {
 
     JwtResponse login(LoginRequest request);
 
-    JwtResponse refreshToken(RegisterRequest request);
-
     JwtResponse refreshToken(RefreshRequest request);
 }
