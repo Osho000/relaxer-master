@@ -12,6 +12,7 @@ import com.example.relaxer.repositories.CredentialsRepository;
 import com.example.relaxer.repositories.RoleRepository;
 import com.example.relaxer.repositories.UserRepository;
 import com.example.relaxer.services.AuthService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public abstract class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final CredentialsRepository credentialsRepository;
