@@ -20,11 +20,11 @@ public class JwtUtils {
     private final long accessTokenExpiresIn = 60000 * 15;
     private final long refreshTokenExpiresIn = 60000 * 60 * 24;
 
-    String generateAccessToken(String username) {
+    public String generateAccessToken(String username) {
         return generateToken(username, accessTokenExpiresIn);
     }
 
-    String generateRefreshToken(String username) {
+    public String generateRefreshToken(String username) {
 
         return generateToken(username, refreshTokenExpiresIn);
     }
@@ -38,7 +38,7 @@ public class JwtUtils {
                 .compact();
     }
 
-    private String extractUsername(String token) {
+    public String extractUsername(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).build().parseClaimsJws(token).getBody().getSubject();
     }
 

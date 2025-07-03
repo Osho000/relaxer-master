@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImpl implements AuthService {
+public abstract class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final CredentialsRepository credentialsRepository;
     private final RoleRepository roleRepository;
@@ -57,14 +57,16 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public JwtResponse refreshToken(RefreshRequest request){
+    public JwtResponse refreshToken(RefreshRequest request) {
         if (!jwtUtils.isTokenValid(request.refreshToken())){
             throw new RuntimeException("Invalid password ");
         }
-        String assess = jwtUtils.generateAccessToken(request.username());
-        String refresh = jwtUtils.generateRefreshToken(request.username());
-        return new JwtResponse(assess, refresh);
+        String username = jwtUtils.extractUsername(request.refreshToken());
+        String newAccess = jwtUtils.generateAccessToken(username);
+        return new JwtResponse(newAccess, request.refreshToken());
     }
+
+
 
 
 }
