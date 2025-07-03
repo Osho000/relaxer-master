@@ -10,8 +10,8 @@ spring:
   flyway:
     schemas:
       - public
-      - list
     baseline-on-migrate: true
+    driver-class-name: org.postgresql.Driver
 
 server:
   port: 8081
@@ -19,5 +19,6 @@ server:
 logging:
   level:
     sql: info
+    org.springframework.security: DEBUG
 jwt:
-  secret: 5ihfp3hr39jgj0jfnnw3hjfoo0jhp38hfofjjf994nffihsj4npcb4gvod9hhguy4djf0fkjugro4bd3bdh4ppj8nf
+  secret: 8dc3e0e6fe23d1c4be967fbf11c960ea70189b42e1f0b15723e1a68a2c142b6bw4eTsDqZh6J8dc3e0e6fe23d1cb6bw4eTsDqZh6J

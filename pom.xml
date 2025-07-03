@@ -67,6 +67,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <version>42.6.0</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -107,28 +108,18 @@
     </dependencies>
     <build>
         <plugins>
-            <!-- Обновленный maven-compiler-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
                 <configuration>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
-                    <release>24</release>  <!-- Используем вместо source/target -->
-                    <compilerArgs>
-                        <arg>--enable-preview</arg>
-                        <arg>-Xlint:preview</arg>
-                    </compilerArgs>
                 </configuration>
             </plugin>
-
-            <!-- asciidoctor-maven-plugin (оставляем без изменений) -->
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
@@ -146,14 +137,13 @@
                         </configuration>
                     </execution>
                 </executions>
+                <dependencies>
+                </dependencies>
             </plugin>
-
-            <!-- Обновленный spring-boot-maven-plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <jvmArguments>--enable-preview</jvmArguments>  <!-- Добавляем для поддержки preview -->
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
