@@ -1,42 +1,44 @@
 package com.example.relaxer.controllers;
 
+
+
+import com.example.relaxer.DTO.JwtResponse;
+import com.example.relaxer.DTO.LoginRequest;
+import com.example.relaxer.DTO.RefreshRequest;
 import com.example.relaxer.DTO.RegisterRequest;
 import com.example.relaxer.services.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/auth")
-@Tag(name = "Auth API", description = "Auth аккаунта")
-
+@RequiredArgsConstructor
+@Tag(name = "Auth API", description = "Регистрация, логин и обновление токенов")
 public class AuthController {
     private final AuthService authService;
 
-    @Operation(summary = "Register",  description = "Register now ", responses = {
-            @ApiResponse(responseCode = "200", description = "Register successfully")
-    })
+    @Operation(summary = "Регистрация")
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
-        authService.register(registerRequest);
-        return ResponseEntity.ok("Register was successfully");
+    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
+        authService.register(request);
+        return ResponseEntity.ok("Пользователь зарегистрирован");
     }
 
-    @Operation(summary = "Login",  description = "Login for what?", responses = {
-            @ApiResponse(responseCode = "200", description = "Login successfully")
-    })
-    @GetMapping("/me")
-    public ResponseEntity<?> whoAmI(Authentication authentication) {
-        if (authentication == null || !authentication.isAuthenticated()) {
-            return ResponseEntity.status(401).body("Not authenticated");
-        }
-        return ResponseEntity.ok("Current user: " + authentication.getName());
+    @Operation(summary = "Аутентификация и получение токенов")
+    @PostMapping("/login")
+    public ResponseEntity<JwtResponse> login(@RequestBody LoginRequest request) {
+        return ResponseEntity.ok(authService.login(request));
+    }
+
+    @Operation(summary = "Обновление access токена")
+    @PostMapping("/refresh")
+    public ResponseEntity<JwtResponse> refresh(@RequestBody RefreshRequest request) {
+        return ResponseEntity.ok(authService.refreshToken(request));
     }
 }
 
